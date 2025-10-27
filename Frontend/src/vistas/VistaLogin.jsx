@@ -1,50 +1,31 @@
-import { useState } from "react";
-import { login } from "../servicios/api";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from 'react'
+import { AuthContext } from '../auth/AuthContext'
 
-export default function VistaLogin() {
-  const [correo, setCorreo] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+export default function Login(){
+  const [correo, setCorreo] = useState('')
+  const [contrasena, setContrasena] = useState('')
+  const [error, setError] = useState('')
+  const { login } = useContext(AuthContext)
 
-  const manejarLogin = async (e) => {
-    e.preventDefault();
+  const submit = async (e) => {
+    e.preventDefault()
     try {
-      const res = await login(correo, contraseña);
-      const { rol } = res.data;
-
-      // Redirigir según el rol
-      if (rol === "estudiante") navigate("/estudiante");
-      else if (rol === "profesor") navigate("/profesor");
-      else if (rol === "padre") navigate("/padre");
-      else if (rol === "administrador") navigate("/admin");
+      await login(correo, contrasena)
     } catch (err) {
-      setError("Credenciales incorrectas");
+      console.error(err)
+      setError('Credenciales inválidas')
     }
-  };
+  }
 
   return (
-    <div className="login">
-      <h2>Inicio de Sesión</h2>
-      <form onSubmit={manejarLogin}>
-        <input
-          type="email"
-          placeholder="Correo"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={contraseña}
-          onChange={(e) => setContraseña(e.target.value)}
-          required
-        />
+    <div className="login-card">
+      <h2>Iniciar sesión</h2>
+      <form onSubmit={submit}>
+        <input value={correo} onChange={e=>setCorreo(e.target.value)} placeholder="Correo" required />
+        <input type="password" value={contrasena} onChange={e=>setContrasena(e.target.value)} placeholder="Contraseña" required />
         <button type="submit">Ingresar</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="error">{error}</p>}
       </form>
     </div>
-  );
+  )
 }

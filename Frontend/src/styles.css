@@ -1,0 +1,5 @@
+body { font-family: Arial, sans-serif; margin: 0; padding: 16px; background:#f5f7fb; }
+.navbar { display:flex; justify-content:space-between; padding:12px; background:#0074D9; color:white; }
+.login-card { background:white; padding:16px; border-radius:8px; max-width:360px; margin:20px auto; }
+button { padding:8px 12px; border-radius:6px; border:none; background:#0074D9; color:white; cursor:pointer; }
+.error { color: red; }

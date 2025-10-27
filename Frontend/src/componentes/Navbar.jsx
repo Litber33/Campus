@@ -1,13 +1,22 @@
-import { Link } from "react-router-dom";
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { AuthContext } from '../auth/AuthContext'
 
-export default function Navbar() {
+export default function Navbar(){
+  const { user, logout } = useContext(AuthContext)
   return (
     <nav className="navbar">
-      <h1>Campus Virtual</h1>
-      <ul>
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/login">Iniciar Sesión</Link></li>
-      </ul>
+      <Link to="/">Campus Virtual</Link>
+      <div>
+        {user ? (
+          <>
+            <span>{user.rol}</span>
+            <button onClick={logout}>Cerrar sesión</button>
+          </>
+        ) : (
+          <Link to="/login">Iniciar sesión</Link>
+        )}
+      </div>
     </nav>
-  );
+  )
 }
